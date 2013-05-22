@@ -1,0 +1,137 @@
+[user]
+name = UNDEFINDED
+email = ymc-undefined@vcs.ymc.ch
+
+[core]
+editor = /usr/bin/gedit
+whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+preloadindex = true
+pager = less -r
+autocrlf = input
+
+[commit]
+#template = pathtotpl
+
+[diff]
+tool = vimdiff
+guitool = meld
+renames = copy
+renamelimit = 4000
+
+[push]
+default = tracking
+#default = matching
+
+[gc]
+reflogexpire = 300
+reflogexpireunreachable = 90
+
+
+[difftool]
+prompt = false
+
+[mergetool]
+prompt = false
+
+[color]
+ui = true
+pager = true
+branch = auto
+diff = auto
+interactive = auto
+status = auto
+
+[color "branch"]
+current = yellow reverse
+local = yellow
+remote = green
+
+[color "diff"]
+meta = yellow bold
+frag = magenta bold
+old = red bold
+new = green bold
+whitespace = red reverse
+
+[color "status"]
+added = yellow
+changed = green
+untracked = cyan
+
+[alias]
+st = status -sb
+ci = commit
+amend = commit --amend
+caa = commit -a --amend -C HEAD
+br = branch
+co = checkout
+df = diff
+lg = log -p
+lg2 =  log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+lol = log --graph --decorate --pretty=oneline --abbrev-commit
+lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+ls = ls-files
+stat = log --stat=100000,100000 -M
+push-head = !git push origin `git symbolic-ref HEAD`
+merge-up = merge --no-ff --log
+prune-all = !git remote | xargs -n 1 git remote prune
+up    = !git remote update ; git gc
+whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+forked = !sh -c 'git rev-list --boundary $1...$2 | grep ^- | cut -c2-'
+edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; /usr/bin/gedit `f`"
+add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+commit-l = commit --reset-author -c HEAD
+purr = pull --rebase
+ready = rebase -i @{u}
+ignored = ls-files --others -i --exclude-standard
+wipe = reset --hard HEAD
+praise = blame
+lasttag = describe --tags --abbrev=0
+standup = "!git log --since yesterday --author `git config user.email` --pretty=short"
+cleanup-merged-origin-branches = "!git branch -r --merged | grep '^  origin/' | grep -v 'master' | grep -v 'develop' | sed 's/origin\\///' | xargs -I \"{}\" git push origin :\"{}\""
+
+# See http://gitboard.net/
+board = !gitboard
+
+# See https://github.com/jsuder/git-code-review
+code-review = !git-code-review
+ready = rebase -i @{u}
+
+sdiff = diff --name-status
+wdiff = diff --word-diff
+pdiff = diff --patience
+hdiff = diff --histogram
+
+assume = update-index --assume-unchanged
+unassume = update-index --no-assume-unchanged
+assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+
+ours = "!f() { git checkout --ours $@ && git add $@; }; f"
+theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
+snapshot = git stash save "snapshot (%DATE% - %TIME%) $*" && git stash apply "stash@{0}"
+snapshots = git stash list --grep snapshot
+
+# See http://gitready.com/advanced/2011/10/21/ribbon-and-catchup-reading-new-commits.html
+catchup = "!f(){ branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$branch.remote`; git log --patch --reverse --topo-order _ribbon_$branch..$remote/$branch; }; f"
+ribbon = "!f(){ branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$branch.remote`; git tag --force _ribbon_$branch $remote/$branch; }; f"
+
+# Search for a given string in all patches and print commit messages
+# example: search for any commit that adds or removes string "foobar"
+#     git search foobar
+# example: search commits for string "foobar" in directory src/lib
+#     git search foobar src/lib
+# example: search commits for "foobar", print full diff of commit with 1 line context
+#     git search foobar --pickaxe-all -U1 src/lib
+search = "!f() { query=\"$1\"; shift; git log -S\"$query\" \"$@\"; }; f \"$@\""
+
+# See http://www.git-legit.org/
+switch = !legit switch \"$@\"
+branches = !legit branches
+sprout = !legit sprout \"$@\"
+unpublish = !legit unpublish \"$@\"
+harvest = !legit harvest \"$@\"
+sync = !legit sync \"$@\"
+publish = !legit publish \"$@\"
+graft = !legit graft \"$@\"
