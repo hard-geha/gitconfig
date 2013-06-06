@@ -113,8 +113,8 @@ snapshot = git stash save "snapshot (%DATE% - %TIME%) $*" && git stash apply "st
 snapshots = git stash list --grep snapshot
 
 # See http://gitready.com/advanced/2011/10/21/ribbon-and-catchup-reading-new-commits.html
-catchup = "!f(){ branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$branch.remote`; git log --patch --reverse --topo-order _ribbon_$branch..$remote/$branch; }; f"
-ribbon = "!f(){ branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$branch.remote`; git tag --force _ribbon_$branch $remote/$branch; }; f"
+catchup = "!f(){ local_branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$local_branch.remote`; remote_branch=`git config branch.$local_branch.merge | grep -Eo '[^/]+$'`; git log --patch --reverse --topo-order _ribbon_$local_branch..$remote/$remote_branch; }; f"
+ribbon = "!f(){ local_branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$local_branch.remote`; remote_branch=`git config branch.$local_branch.merge | grep -Eo '[^/]+$'`; git tag --force _ribbon_$local_branch $remote/$remote_branch; }; f"
 
 # Search for a given string in all patches and print commit messages
 # example: search for any commit that adds or removes string "foobar"
