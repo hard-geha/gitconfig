@@ -82,7 +82,7 @@ forked = !sh -c 'git rev-list --boundary $1...$2 | grep ^- | cut -c2-'
 edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; /usr/bin/gedit `f`"
 add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
 commit-l = commit --reset-author -c HEAD
-purr = pull --rebase
+purr = "!f(){ local_branch=`git rev-parse --abbrev-ref HEAD`; remote=`git config branch.$local_branch.remote`; remote_branch=`git config branch.$local_branch.merge | grep -Eo '[^/]+$'`; git fetch $remote; git rebase -p $remote/$remote_branch; }; f"
 ready = rebase -i @{u}
 ignored = ls-files --others -i --exclude-standard
 wipe = reset --hard HEAD
