@@ -87,8 +87,13 @@ ready = rebase -i @{u}
 ignored = ls-files --others -i --exclude-standard
 wipe = reset --hard HEAD
 praise = blame
+staged = diff --cached
+summary = log --oneline
+tags = tag -n1 -l
 lasttag = describe --tags --abbrev=0
 standup = "!git log --since yesterday --author `git config user.email` --pretty=short"
+my = log --pretty=format:'%Cred%h %C(yellow)%d %Cblue%ad%Creset %cn %Cgreen%s%Creset' --graph --relative-date
+rank = shortlog -sn --no-merges
 cleanup-merged-origin-branches = "!git branch -r --merged | grep '^  origin/' | grep -v 'master' | grep -v 'develop' | sed 's/origin\\///' | xargs -I \"{}\" git push origin :\"{}\""
 
 # See http://gitboard.net/
