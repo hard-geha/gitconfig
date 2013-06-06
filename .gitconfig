@@ -96,7 +96,6 @@ board = !gitboard
 
 # See https://github.com/jsuder/git-code-review
 code-review = !git-code-review
-ready = rebase -i @{u}
 
 sdiff = diff --name-status
 wdiff = diff --word-diff
