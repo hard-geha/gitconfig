@@ -16,7 +16,7 @@ autocrlf = input
 tool = vimdiff
 guitool = meld
 renames = copy
-renamelimit = 4000
+renamelimit = 18131
 
 [push]
 default = tracking
@@ -95,9 +95,9 @@ standup = "!git log --since yesterday --author `git config user.email` --pretty=
 my = log --pretty=format:'%Cred%h %C(yellow)%d %Cblue%ad%Creset %cn %Cgreen%s%Creset' --graph --relative-date
 rank = shortlog -sn --no-merges
 
-cleanup-merged-origin-branches = "!git checkout develop; git remote update; git prune-all; git branch -r --merged | grep '^  origin/' | grep -v 'master' | grep -v 'develop' | sed 's/origin\\///' | xargs -I \"{}\" git push origin :\"{}\""
-upgrade-local-branches = "!git checkout develop; git pull; for local_branch in $(git branch | grep -Ev '^  (master|release)' | tr -d '* '); do git checkout $local_branch; git pull; git merge develop && git push; git reset --hard; done; git checkout develop"
-upgrade-all-branches = "!git checkout develop; git remote update; git prune-all; git pull; for remote_branch in $(git branch -r | grep '^  origin/' | grep -Ev 'origin/(master|develop|release|HEAD)' | tr -d ' '); do git branch $remote_branch $remote_branch; git checkout $remote_branch; git merge develop && git push; git reset --hard; git checkout develop; git branch -D $remote_branch; done;"
+cleanup-merged-origin-branches = "!git checkout develop; git remote update; git prune-all; git branch -r --merged | grep '^  origin/' | grep -v 'master' | grep -Ev '(master|develop|release|hotfix|support|HEAD)' | sed 's/origin\\///' | xargs -I \"{}\" git push origin :\"{}\""
+upgrade-local-branches = "!git checkout develop; git pull; for local_branch in $(git branch | grep -Ev '^  (master|develop|release|hotfix|support|HEAD)' | tr -d '* '); do git checkout $local_branch; git pull; git merge develop && git push; git reset --hard; done; git checkout develop"
+upgrade-all-branches = "!git checkout develop; git remote update; git prune-all; git pull; for remote_branch in $(git branch -r | grep '^  origin/' | grep -Ev 'origin/(master|develop|release|hotfix|support|HEAD)' | tr -d ' '); do git branch $remote_branch $remote_branch; git checkout $remote_branch; git merge develop && git push; git reset --hard; git checkout develop; git branch -D $remote_branch; done;"
 
 # See http://gitboard.net/
 board = !gitboard
