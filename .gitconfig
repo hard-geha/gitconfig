@@ -9,6 +9,12 @@ preloadindex = true
 pager = less -r
 autocrlf = input
 
+[help]
+autocorrect = 1
+
+[rerere]
+enabled = 1
+
 [commit]
 #template = pathtotpl
 
@@ -61,8 +67,9 @@ untracked = cyan
 [alias]
 st = status -sb
 ci = commit
-amend = commit --amend
+amend = commit --amend -C HEAD
 caa = commit -a --amend -C HEAD
+undo = reset --soft HEAD^
 br = branch
 co = checkout
 df = diff
