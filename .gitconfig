@@ -25,7 +25,7 @@ renames = copy
 renamelimit = 18131
 
 [push]
-default = tracking
+default = simple
 #default = matching
 
 [gc]
